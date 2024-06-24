@@ -42,7 +42,6 @@ int isNumber(const char *str) {
     // Check if each character is a digit
     while (*str != '\0') {
         if (!isdigit((unsigned char)*str)) {
-            printf("this%c", *str);
             return 0;
         }
         str++;
@@ -51,17 +50,13 @@ int isNumber(const char *str) {
 }
 
 struct Token *tokenizer(char *instruction) {
-    printf("Where's that damn error!\n");
     char *args, *args_copy = (char *)malloc(strlen(args) + 1);
     char *command = strtok(instruction, " ");
     args = strtok(NULL, "");
-    printf("Jeez-loize\n");
     strcpy(args_copy, args);
     args_copy[strlen(args) + 1] = '\0';
-    printf("This\n");
     int size = 1;
     char *arg = strtok(args, ",");
-    printf("Huh??\n");
     while (strtok(NULL, ",")) {
         size++;
     }
@@ -78,8 +73,6 @@ struct Token *tokenizer(char *instruction) {
             break;
         }
         arg = trim(arg);
-        printf("heh%s\n", arg);
-        printf("%d\n", isNumber(arg));
         int i = 0;
         if (isNumber(arg)) {
             tokens[iter++] = (struct Token){tok_const, arg};
