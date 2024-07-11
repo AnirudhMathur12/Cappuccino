@@ -1,3 +1,5 @@
+#include "tokenizer.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/_types/_size_t.h>
@@ -6,6 +8,7 @@ char *read_file(char *filename);
 
 int main(int argc, char **argv) {
     char *file_content = read_file(argv[1]);
+    tokenize(file_content);
     return 0;
 }
 
@@ -28,7 +31,6 @@ char *read_file(char *filename) {
     buffer[file_size_bytes] = '\0';
 
     fclose(source);
-    free(source);
 
     return buffer;
 }
