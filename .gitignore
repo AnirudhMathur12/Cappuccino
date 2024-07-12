@@ -1,3 +1,11 @@
+# CMake
+CMakeLists.txt
+Makefile
+build
+
+# Clang Format
+.clang-format
+
 # Prerequisites
 *.d
 
