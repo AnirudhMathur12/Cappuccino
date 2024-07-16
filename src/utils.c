@@ -32,3 +32,11 @@ char *pop(struct Stack *stack) {
     stack->arr[stack->len--] = NULL;
     return data;
 }
+
+void freeStack(struct Stack *stack) {
+    for (int i = 0; i < STACK_SIZE; i++) {
+        free(stack->arr[i]);
+    }
+    free(stack->arr);
+    free(stack);
+}

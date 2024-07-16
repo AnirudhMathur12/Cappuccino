@@ -3,11 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#define KEYWORD_QUANTITY 3
+#define KEYWORD_QUANTITY 4
+#define OPERATOR_QUANTITY 5
 
 char brackets[4][2] = {{'(', ')'}, {'{', '}'}, {'[', ']'}, {'<', '>'}};
 
-char *keywords[KEYWORD_QUANTITY] = {"int", "str", "char"};
+char operators[OPERATOR_QUANTITY] = {'+', '-', '*', '/', ':'};
+char *keywords[KEYWORD_QUANTITY] = {"int", "str", "char", "float"};
 
 struct Token *createToken(char *tok_name, enum token_type tok_type) {
     struct Token *temp = (struct Token *)malloc(sizeof(struct Token));
@@ -32,27 +34,37 @@ struct Token *tokenize(char *data) {
 
     for (int i = 0; i < data[i] != '\0'; i++) {
         if (data[i] == ' ') {
-            buffer_reset = i + 1;
             buffer[i - buffer_reset] = '\0';
-            for (int i = 0; i < KEYWORD_QUANTITY; i++) {
-                if (!strcmp(buffer, keywords[i])) {
-                    if (head == NULL) {
-                        head = createToken(buffer, TOK_KEYWORD);
-                        current = head;
-                        break;
-                    }
-                    struct Token *temp = createToken(buffer, TOK_KEYWORD);
-                    current->next = temp;
-                    current = current->next;
-                }
-
-                continue;
+            buffer_reset = i + 1;
+            if (head == NULL) {
+                head = detectToken(buffer);
+                current = malloc(sizeof(struct Token));
+                current = head;
+            } else {
+                current->next = detectToken(buffer);
+                current = current->next;
             }
-            free(buffer);
-            buffer = malloc(2048);
+            continue;
         }
         buffer[i - buffer_reset] = data[i];
     }
+    printf("%d\n", head);
+    return head;
+}
+
+struct Token *detectToken(char *str) {
+    for (int i = 0; i < KEYWORD_QUANTITY; i++) {
+        if (!strcmp(str, keywords[i])) {
+            printf("TOKEN! CREATED");
+            return createToken(str, TOK_KEYWORD);
+        }
+    }
+    for (int i = 0; i < OPERATOR_QUANTITY; i++) {
+        if (!strcmp(str, charToStr(operators[i]))) {
+            return createToken(str, TOK_OPERATOR);
+        }
+    }
+    return createToken(str, TOK_IDENTIFIER);
 }
 
 int check_brackets(char *data) {
@@ -72,7 +84,9 @@ int check_brackets(char *data) {
         }
     }
     if (bracket_stack->len != -1) {
+        freeStack(bracket_stack);
         return 0;
     }
+    freeStack(bracket_stack);
     return 1;
 }

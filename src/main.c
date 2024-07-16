@@ -8,7 +8,12 @@ char *read_file(char *filename);
 
 int main(int argc, char **argv) {
     char *file_content = read_file(argv[1]);
-    tokenize(file_content);
+    struct Token *head = tokenize(file_content);
+    while (1) {
+        printf("%d\n", head);
+        printf("%s\n", head->tok_name);
+        head = head->next;
+    }
     return 0;
 }
 

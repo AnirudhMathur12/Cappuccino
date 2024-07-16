@@ -12,6 +12,7 @@ struct Stack {
 struct Stack *createStack();
 void push(struct Stack *stack, char *data);
 char *pop(struct Stack *stack);
+void freeStack(struct Stack *stack);
 
 char *charToStr(char c);
 #endif

@@ -18,6 +18,7 @@ struct Token {
 };
 
 struct Token *createToken(char *tok_name, enum token_type tok_type);
+struct Token *detectToken(char *str);
 
 struct Token *tokenize(char *data);
 int check_brackets(char *data);

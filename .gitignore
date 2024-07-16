@@ -1,7 +1,12 @@
 # CMake
 CMakeLists.txt
+CMakeCache.txt
 Makefile
 build
+cmake_install.cmake
+
+# Executable
+cappuccino
 
 # Clang Format
 .clang-format
@@ -64,3 +69,4 @@ Makefile
 
 #binary
 capp
+CMakeFiles
