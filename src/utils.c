@@ -40,3 +40,30 @@ void freeStack(struct Stack *stack) {
     free(stack->arr);
     free(stack);
 }
+
+char *read_file(char *filename) {
+    FILE *source;
+
+    source = fopen(filename, "r");
+    if (source == NULL) {
+        printf("Error: File not found or could not open it.\n");
+        return NULL;
+    }
+
+    fseek(source, 0, SEEK_END);
+    size_t file_size_bytes = ftell(source);
+    fseek(source, 0, SEEK_SET);
+
+    char *buffer = (char *)malloc(file_size_bytes + 1);
+
+    fread(buffer, 1, file_size_bytes, source);
+    buffer[file_size_bytes] = '\0';
+
+    fclose(source);
+
+    return buffer;
+}
+
+int isAlpha(char ch) {
+    return ((ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122));
+}

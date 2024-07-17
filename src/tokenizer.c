@@ -11,10 +11,14 @@ char brackets[4][2] = {{'(', ')'}, {'{', '}'}, {'[', ']'}, {'<', '>'}};
 char operators[OPERATOR_QUANTITY] = {'+', '-', '*', '/', ':'};
 char *keywords[KEYWORD_QUANTITY] = {"int", "str", "char", "float"};
 
+int isAlpha(char ch) {
+    return ((ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122));
+}
+
 struct Token *createToken(char *tok_name, enum token_type tok_type) {
     struct Token *temp = (struct Token *)malloc(sizeof(struct Token));
     temp->tok_name = malloc(2048);
-    temp->tok_name = tok_name;
+    strcpy(temp->tok_name, tok_name);
     temp->tok_type = tok_type;
     temp->next = NULL;
 
@@ -33,29 +37,30 @@ struct Token *tokenize(char *data) {
     int buffer_reset = 0;
 
     for (int i = 0; i < data[i] != '\0'; i++) {
-        if (data[i] == ' ') {
+        if (!isAlpha(data[i])) {
             buffer[i - buffer_reset] = '\0';
-            buffer_reset = i + 1;
+            struct Token *tok = detectToken(buffer);
             if (head == NULL) {
-                head = detectToken(buffer);
-                current = malloc(sizeof(struct Token));
+                head = tok;
                 current = head;
             } else {
-                current->next = detectToken(buffer);
-                current = current->next;
+                while (current->next != NULL) {
+                    current = current->next;
+                }
+                current->next = tok;
             }
-            continue;
+            buffer_reset = i + 1;
+            free(buffer);
+            buffer = malloc(2048);
         }
         buffer[i - buffer_reset] = data[i];
     }
-    printf("%d\n", head);
     return head;
 }
 
 struct Token *detectToken(char *str) {
     for (int i = 0; i < KEYWORD_QUANTITY; i++) {
         if (!strcmp(str, keywords[i])) {
-            printf("TOKEN! CREATED");
             return createToken(str, TOK_KEYWORD);
         }
     }
