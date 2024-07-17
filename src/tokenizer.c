@@ -4,16 +4,13 @@
 #include <string.h>
 
 #define KEYWORD_QUANTITY 4
-#define OPERATOR_QUANTITY 5
+#define OPERATOR_QUANTITY 6
 
 char brackets[4][2] = {{'(', ')'}, {'{', '}'}, {'[', ']'}, {'<', '>'}};
 
-char operators[OPERATOR_QUANTITY] = {'+', '-', '*', '/', ':'};
+char operators[OPERATOR_QUANTITY] = {'+', '-', '*', '/', ':', '='};
 char *keywords[KEYWORD_QUANTITY] = {"int", "str", "char", "float"};
-
-int isAlpha(char ch) {
-    return ((ch >= 65 && ch <= 90) || (ch >= 97 && ch <= 122));
-}
+char digits[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 struct Token *createToken(char *tok_name, enum token_type tok_type) {
     struct Token *temp = (struct Token *)malloc(sizeof(struct Token));
@@ -37,7 +34,7 @@ struct Token *tokenize(char *data) {
     int buffer_reset = 0;
 
     for (int i = 0; i < data[i] != '\0'; i++) {
-        if (!isAlpha(data[i])) {
+        if (!isAlpha(data[i]) && data[i - 1] != ' ') {
             buffer[i - buffer_reset] = '\0';
             struct Token *tok = detectToken(buffer);
             if (head == NULL) {
@@ -49,16 +46,30 @@ struct Token *tokenize(char *data) {
                 }
                 current->next = tok;
             }
-            buffer_reset = i + 1;
+            buffer_reset = i;
             free(buffer);
             buffer = malloc(2048);
         }
+        if (data[i] == ' ') {
+            buffer_reset++;
+            continue;
+        }
         buffer[i - buffer_reset] = data[i];
+        // printf("%c\n", buffer[i - buffer_reset]);
     }
+    struct Token *tok = detectToken(buffer);
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = tok;
+
     return head;
 }
 
 struct Token *detectToken(char *str) {
+    if (!strcmp(str, charToStr(';'))) {
+        return createToken(";", TOK_NEWLINE);
+    }
     for (int i = 0; i < KEYWORD_QUANTITY; i++) {
         if (!strcmp(str, keywords[i])) {
             return createToken(str, TOK_KEYWORD);
@@ -67,6 +78,11 @@ struct Token *detectToken(char *str) {
     for (int i = 0; i < OPERATOR_QUANTITY; i++) {
         if (!strcmp(str, charToStr(operators[i]))) {
             return createToken(str, TOK_OPERATOR);
+        }
+    }
+    for (int i = 0; i < 10; i++) {
+        if (!strcmp(str, charToStr(digits[i]))) {
+            return createToken(str, TOK_CONSTANT);
         }
     }
     return createToken(str, TOK_IDENTIFIER);
