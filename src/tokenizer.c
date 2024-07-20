@@ -48,18 +48,13 @@ struct Token *tokenize(char *data) {
             }
             buffer_reset = i;
         }
-        if (data[i] == ' ') {
+        if (data[i] == ' ' || data[i] == '\n') {
             buffer_reset++;
             continue;
         }
         buffer[i - buffer_reset] = data[i];
         // printf("%c\n", buffer[i - buffer_reset]);
     }
-    struct Token *tok = detectToken(buffer);
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    current->next = tok;
 
     return head;
 }
