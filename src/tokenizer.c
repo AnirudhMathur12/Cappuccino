@@ -3,13 +3,16 @@
 #include <stdio.h>
 #include <string.h>
 
-#define KEYWORD_QUANTITY 4
+#define KEYWORD_QUANTITY 6
 #define OPERATOR_QUANTITY 6
+#define SPECIAL_SYMBOL_SIZE 7
 
 char brackets[4][2] = {{'(', ')'}, {'{', '}'}, {'[', ']'}, {'<', '>'}};
 
-char operators[OPERATOR_QUANTITY] = {'+', '-', '*', '/', ':', '='};
-char *keywords[KEYWORD_QUANTITY] = {"int", "str", "char", "float"};
+char special_symbols[SPECIAL_SYMBOL_SIZE] = {'(', ')', '{', '}', '[', ']', ':'};
+char operators[OPERATOR_QUANTITY] = {'+', '-', '*', '/', '='};
+char *keywords[KEYWORD_QUANTITY] = {"int",   "str",    "char",
+                                    "float", "return", "void"};
 char digits[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 struct Token *createToken(char *tok_name, enum token_type tok_type) {
@@ -34,7 +37,8 @@ struct Token *tokenize(char *data) {
     int buffer_reset = 0;
 
     for (int i = 0; data[i] != '\0'; i++) {
-        if (!isAlpha(data[i]) && (data[i - 1] != ' ')) {
+        if (!isAlpha(data[i]) && (data[i - 1] != ' ') &&
+            (data[i - 1] != '\n')) {
             buffer[i - buffer_reset] = '\0';
             struct Token *tok = detectToken(buffer);
             if (head == NULL) {
@@ -76,6 +80,11 @@ struct Token *detectToken(char *str) {
     for (int i = 0; i < 10; i++) {
         if (!strcmp(str, charToStr(digits[i]))) {
             return createToken(str, TOK_CONSTANT);
+        }
+    }
+    for (int i = 0; i < SPECIAL_SYMBOL_SIZE; i++) {
+        if (!strcmp(str, charToStr(special_symbols[i]))) {
+            return createToken(str, TOK_SPCL);
         }
     }
     return createToken(str, TOK_IDENTIFIER);

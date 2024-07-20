@@ -1,2 +1,4 @@
-int a = 7;
-int j = 9;
+void main() {
+    int a = 7;
+    return 0;
+}
