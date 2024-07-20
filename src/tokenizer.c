@@ -5,11 +5,12 @@
 
 #define KEYWORD_QUANTITY 6
 #define OPERATOR_QUANTITY 6
-#define SPECIAL_SYMBOL_SIZE 7
+#define SPECIAL_SYMBOL_SIZE 8
 
 char brackets[4][2] = {{'(', ')'}, {'{', '}'}, {'[', ']'}, {'<', '>'}};
 
-char special_symbols[SPECIAL_SYMBOL_SIZE] = {'(', ')', '{', '}', '[', ']', ':'};
+char special_symbols[SPECIAL_SYMBOL_SIZE] = {'(', ')', '{', '}',
+                                             '[', ']', ':', '.'};
 char operators[OPERATOR_QUANTITY] = {'+', '-', '*', '/', '='};
 char *keywords[KEYWORD_QUANTITY] = {"int",   "str",    "char",
                                     "float", "return", "void"};
@@ -26,6 +27,9 @@ struct Token *createToken(char *tok_name, enum token_type tok_type) {
 }
 
 struct Token *tokenize(char *data) {
+    if (!strcmp(data, "")) {
+        return NULL;
+    }
     struct Token *head = NULL;
     struct Token *current = NULL;
     if (!check_brackets(data)) {
