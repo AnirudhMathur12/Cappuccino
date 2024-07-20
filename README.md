@@ -1,2 +1,1 @@
-After learning assembly from half-baked (and two really good tutorials, 
-thanks, LaurieWired) I have finally learnt assembly
+I really like the C syntax so i am going to rip it off. The defining feature about my language? nothing.
