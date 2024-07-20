@@ -33,8 +33,8 @@ struct Token *tokenize(char *data) {
     char *buffer = malloc(2048);
     int buffer_reset = 0;
 
-    for (int i = 0; i < data[i] != '\0'; i++) {
-        if (!isAlpha(data[i]) && data[i - 1] != ' ') {
+    for (int i = 0; data[i] != '\0'; i++) {
+        if (!isAlpha(data[i]) && (data[i - 1] != ' ')) {
             buffer[i - buffer_reset] = '\0';
             struct Token *tok = detectToken(buffer);
             if (head == NULL) {
@@ -47,8 +47,6 @@ struct Token *tokenize(char *data) {
                 current->next = tok;
             }
             buffer_reset = i;
-            free(buffer);
-            buffer = malloc(2048);
         }
         if (data[i] == ' ') {
             buffer_reset++;
