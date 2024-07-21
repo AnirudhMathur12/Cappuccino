@@ -1,4 +1,4 @@
-void main( {
-    int j=7;
+void main() {
+    int j=798;
     return 0;
 }
