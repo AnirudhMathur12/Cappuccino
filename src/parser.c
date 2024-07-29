@@ -1,4 +1,3 @@
-#ifndef PARSER_C_
-#define PARSER_C_
-struct AST_Node {};
-#endif
+#include "parser.h"
+
+struct AST parse(struct Token *token) {}

@@ -117,3 +117,18 @@ int check_brackets(char *data) {
     freeStack(bracket_stack);
     return 1;
 }
+
+void free_tokens(struct Token *head) {
+    if (head == NULL) {
+        return;
+    }
+
+    struct Token *current = head;
+    struct Token *prev = head;
+
+    while (prev == NULL) {
+        prev = current;
+        current = current->next;
+        free(prev);
+    }
+}

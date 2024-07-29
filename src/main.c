@@ -6,9 +6,13 @@
 int main(int argc, char **argv) {
     char *file_content = read_file(argv[1]);
     struct Token *head = tokenize(file_content);
-    while (head != NULL) {
-        printf("Name: %s, Type: %d\n", head->tok_name, head->tok_type);
-        head = head->next;
+    struct Token *iter = head;
+    while (iter != NULL) {
+        printf("Name: %s, Type: %d\n", iter->tok_name, iter->tok_type);
+        iter = iter->next;
     }
+
+    free_tokens(head);
+
     return 0;
 }

@@ -22,4 +22,6 @@ struct Token *detectToken(char *str);
 
 struct Token *tokenize(char *data);
 int check_brackets(char *data);
+
+void free_tokens(struct Token *head);
 #endif
