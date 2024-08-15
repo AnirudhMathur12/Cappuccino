@@ -11,6 +11,9 @@ cappuccino
 # Clang Format
 .clang-format
 
+# MacOS
+.DS_store
+
 # Prerequisites
 *.d
 
