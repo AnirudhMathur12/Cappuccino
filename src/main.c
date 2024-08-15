@@ -1,3 +1,4 @@
+#include "parser.h"
 #include "tokenizer.h"
 #include "utils.h"
 #include <stdio.h>
@@ -11,6 +12,11 @@ int main(int argc, char **argv) {
         printf("Name: %s, Type: %d\n", iter->tok_name, iter->tok_type);
         iter = iter->next;
     }
+
+    AST *ast = parse(head);
+    printf("Data type: %s\nIdentifier name: %s\n",
+           ast->data.AST_VARIABLE_DECLARATION.data_type,
+           ast->data.AST_VARIABLE_DECLARATION.variable_name);
 
     free_tokens(head);
 

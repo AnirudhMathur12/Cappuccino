@@ -7,7 +7,8 @@ enum token_type {
     TOK_OPERATOR,
     TOK_CONSTANT,
     TOK_KEYWORD,
-    TOK_NEWLINE
+    TOK_NEWLINE,
+    TOK_END
 };
 
 struct Token {
