@@ -1,3 +1,5 @@
+// Copyright (C) 2024 Anirudh Mathur
+
 #include "tokenizer.h"
 #include "utils.h"
 #include <stdio.h>

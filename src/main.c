@@ -1,3 +1,5 @@
+// Copyright (C) 2024 Anirudh Mathur
+
 #include "parser.h"
 #include "tokenizer.h"
 #include "utils.h"

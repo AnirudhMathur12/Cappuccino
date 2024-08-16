@@ -1,3 +1,5 @@
+// Copyright (C) 2024 Anirudh Mathur
+
 #ifndef TOKENIZER_H_
 #define TOKENIZER_H_
 

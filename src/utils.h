@@ -1,3 +1,5 @@
+// Copyright (C) 2024 Anirudh Mathur
+
 #ifndef UTILS_H_
 #define UTILS_H_
 #include <stdio.h>

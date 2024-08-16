@@ -1,3 +1,4 @@
+// Copyright (C) 2024 Anirudh Mathur
 #ifndef PARSER_H_
 #define PARSER_H_
 

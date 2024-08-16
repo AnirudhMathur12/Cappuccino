@@ -1,3 +1,5 @@
+// Copyright (C) 2024 Anirudh Mathur
+
 #include "utils.h"
 
 char *charToStr(char c) {
