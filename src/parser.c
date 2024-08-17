@@ -2,8 +2,13 @@
 #include "parser.h"
 #include "tokenizer.h"
 
+struct Token *bookmark = NULL;
+
 struct AST *parse(struct Token *head) {
     struct Token *iter = NULL;
+    if (head == NULL) {
+        head = bookmark;
+    }
     iter = head;
     int count = 0;
     while (iter->tok_type != TOK_NEWLINE) {
@@ -17,5 +22,9 @@ struct AST *parse(struct Token *head) {
         ast->data.AST_VARIABLE_DECLARATION = (struct AST_VARIABLE_DECLARATION){
             head->tok_name, (head = head->next)->tok_name};
     }
+    if (head->next->tok_type == TOK_NEWLINE) {
+        head = head->next->next;
+    }
+    bookmark = head;
     return ast;
 }

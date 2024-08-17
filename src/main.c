@@ -19,6 +19,10 @@ int main(int argc, char **argv) {
     printf("Data type: %s\nIdentifier name: %s\n",
            ast->data.AST_VARIABLE_DECLARATION.data_type,
            ast->data.AST_VARIABLE_DECLARATION.variable_name);
+    ast = parse(NULL);
+    printf("Data type: %s\nIdentifier name: %s\n",
+           ast->data.AST_VARIABLE_DECLARATION.data_type,
+           ast->data.AST_VARIABLE_DECLARATION.variable_name);
 
     free_tokens(head);
 
