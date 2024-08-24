@@ -4,7 +4,7 @@
 
 #include "stdio.h"
 #include "stdlib.h"
-#include "tokenizer.h"
+#include "tokenizer.hpp"
 
 typedef struct AST AST;
 
@@ -14,12 +14,17 @@ struct AST {
         struct AST_EXPRESSION {
             union {
                 int data_in;
+                // str, float, other stuff
             };
         } AST_EXPRESSION;
         struct AST_VARIABLE_DECLARATION {
             char *data_type;
             char *variable_name;
         } AST_VARIABLE_DECLARATION;
+        struct AST_ASSIGNMENT {
+            char *variable_name;
+            struct AST_EXPRESSION data;
+        } AST_ASSIGNMENT;
 
     } data;
 };
