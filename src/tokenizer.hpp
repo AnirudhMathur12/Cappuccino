@@ -10,7 +10,7 @@ namespace n_Tokenizer
 
 class Token;
 
-enum token_type
+enum token_type : unsigned char
 {
     TOK_IDENTIFIER,
     TOK_SPCL,
@@ -26,21 +26,21 @@ public:
     Tokenizer(const Tokenizer &) = delete;
     static Tokenizer &GetInstance();
     void Tokenize(std::string);
-    std::vector<Token> GetTokens();
     Token assignToken(std::string data);
+
+    std::vector<Token> tokens;
 
 private:
     Tokenizer();
-    std::vector<Token> tokens;
 };
 
 class Token
 {
+public:
     enum token_type tok_type;
     std::string tok_name;
     struct Token *next;
 
-public:
     void printData();
     Token(std::string _tok_name, token_type _tok_type);
     Token createToken(std::string data);

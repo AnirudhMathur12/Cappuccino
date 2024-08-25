@@ -72,8 +72,6 @@ Token Tokenizer::assignToken(std::string data)
     return Token(data, TOK_IDENTIFIER);
 }
 
-std::vector<Token> Tokenizer::GetTokens() { return tokens; }
-
 Tokenizer::Tokenizer() {}
 
 // Token

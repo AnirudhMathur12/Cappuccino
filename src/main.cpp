@@ -24,9 +24,10 @@ int main(int argc, char **argv)
     instance.Tokenize(file_content);
     std::vector<n_Tokenizer::Token>::iterator it;
 
-    for (int i = 0; i < instance.GetTokens().size(); i++)
+    for (std::vector<n_Tokenizer::Token>::iterator it = instance.tokens.begin();
+         it != instance.tokens.end(); ++it)
     {
-        instance.GetTokens().at(i).printData();
+        it->printData();
     }
 
     /*
@@ -43,8 +44,7 @@ int main(int argc, char **argv)
     ast->data.AST_VARIABLE_DECLARATION.data_type
               << "\nVariable name: "
               << ast->data.AST_VARIABLE_DECLARATION.variable_name <<
-    std::endl; ast = parse(NULL);
-
+    std::endl; ast = parse(NULL
     init_emitter();
     emit(*ast);
 

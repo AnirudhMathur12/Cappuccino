@@ -3,9 +3,34 @@
 
 #include "tokenizer.hpp"
 
-struct Token *bookmark = NULL;
-int int_count = 0;
+using namespace n_Parser;
 
+Parser& Parser::GetInstance()
+{
+    static Parser p_Instance;
+    return p_Instance;
+}
+
+Parser::Parser() {}
+
+void Parser::Parse(std::vector<n_Tokenizer::Token> tokens)
+{
+    std::vector<n_Tokenizer::Token> buffer;
+    for (std::vector<n_Tokenizer::Token>::iterator it = tokens.begin();
+         it->tok_type != n_Tokenizer::TOK_NEWLINE; ++it)
+    {
+        buffer.push_back(*it);
+    }
+    if (buffer.size() == 2 &&
+        buffer.at(0).tok_type == n_Tokenizer::TOK_KEYWORD &&
+        buffer.at(1).tok_type == n_Tokenizer::TOK_IDENTIFIER)
+    {
+        AST temp;
+        temp.tag = AST::AST_VARIABLE_DECLARATION;
+        temp.data.AST_VARIABLE_DECLARATION.data_type = buffer.at(0).tok_name;
+        abstract_syntax_tree.push_back();
+    }
+}
 /*
 
 struct AST *parse(struct Token *head)
