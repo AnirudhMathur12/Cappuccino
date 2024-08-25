@@ -3,14 +3,10 @@
 #include <stdlib.h>
 
 #include <iostream>
-#include <iterator>
-#include <memory>
 #include <vector>
 
-/*
-#include "emitter.hpp"
+#include "ast.hpp"
 #include "parser.hpp"
-*/
 #include "tokenizer.hpp"
 #include "utils.hpp"
 
@@ -29,6 +25,11 @@ int main(int argc, char **argv)
     {
         it->printData();
     }
+
+    n_Parser::Parser::GetInstance().Parse(instance.tokens);
+    AbstractSyntaxTree::PrintVisitor p;
+
+    n_Parser::Parser::GetInstance().abstract_syntax_tree.at(0)->accept(p);
 
     /*
     struct Token *head = tokenize(file_content);

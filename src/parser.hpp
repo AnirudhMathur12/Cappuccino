@@ -13,7 +13,7 @@ public:
     Parser(const Parser &) = delete;
     static Parser &GetInstance();
     void Parse(std::vector<n_Tokenizer::Token> tokens);
-    std::vector<ASTNodePtr> abstract_syntax_tree;
+    std::vector<AbstractSyntaxTree::ASTNodePtr> abstract_syntax_tree;
 
 private:
     Parser();

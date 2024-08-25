@@ -1,6 +1,8 @@
 // Copyright (C) 2024 Anirudh Mathur
 #include "parser.hpp"
 
+#include <memory>
+
 #include "tokenizer.hpp"
 
 using namespace n_Parser;
@@ -25,10 +27,10 @@ void Parser::Parse(std::vector<n_Tokenizer::Token> tokens)
         buffer.at(0).tok_type == n_Tokenizer::TOK_KEYWORD &&
         buffer.at(1).tok_type == n_Tokenizer::TOK_IDENTIFIER)
     {
-        AST temp;
-        temp.tag = AST::AST_VARIABLE_DECLARATION;
-        temp.data.AST_VARIABLE_DECLARATION.data_type = buffer.at(0).tok_name;
-        abstract_syntax_tree.push_back();
+        AbstractSyntaxTree::ASTNodePtr ptr =
+            std::make_unique<AbstractSyntaxTree::VariableDeclaration>(
+                (buffer.at(0).tok_name), (buffer.at(1).tok_name));
+        abstract_syntax_tree.push_back(std::move(ptr));
     }
 }
 /*

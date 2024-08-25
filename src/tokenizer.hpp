@@ -10,7 +10,7 @@ namespace n_Tokenizer
 
 class Token;
 
-enum token_type : unsigned char
+enum token_type
 {
     TOK_IDENTIFIER,
     TOK_SPCL,
@@ -39,7 +39,6 @@ class Token
 public:
     enum token_type tok_type;
     std::string tok_name;
-    struct Token *next;
 
     void printData();
     Token(std::string _tok_name, token_type _tok_type);

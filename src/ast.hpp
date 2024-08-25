@@ -1,4 +1,8 @@
+#pragma once
 #include <string>
+
+namespace AbstractSyntaxTree
+{
 
 class ASTNode
 {
@@ -17,20 +21,20 @@ public:
 
 class IntegerLiteral : public Expression
 {
+public:
     int value;
 
-public:
     IntegerLiteral(int val) : value(val) {}
-    void accept(class Visitor& accept) override;
+    void accept(Visitor& accept) override;
 };
 
 class VariableDeclaration : public Expression
 {
+public:
     std::string data_type;
     std::string identifier_name;
 
-public:
-    void accept(class Visitor& accept) override;
+    void accept(Visitor& accept) override;
     VariableDeclaration(std::string _data_type, std::string _iden_name)
         : data_type(_data_type), identifier_name(_iden_name)
     {
@@ -39,10 +43,10 @@ public:
 
 class VariableDefinition : public Expression
 {
+public:
     std::string identifier_name;
     ASTNodePtr expression;
 
-public:
     void accept(class Visitor& accept) override;
     VariableDefinition(std::string _identifier_name, ASTNodePtr _expression)
         : identifier_name(_identifier_name), expression(std::move(_expression))
@@ -57,3 +61,12 @@ public:
     virtual void visit(VariableDeclaration& literal) = 0;
     virtual void visit(VariableDefinition& literal) = 0;
 };
+
+class PrintVisitor : public Visitor
+{
+public:
+    void visit(IntegerLiteral& literal) override;
+    void visit(VariableDeclaration& literal) override;
+    void visit(VariableDefinition& literal) override;
+};
+};  // namespace AbstractSyntaxTree
