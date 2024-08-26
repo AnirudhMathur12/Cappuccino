@@ -37,6 +37,10 @@ void Parser::Parse(std::vector<n_Tokenizer::Token> tokens)
                 std::make_unique<AbstractSyntaxTree::VariableDeclaration>(
                     (buffer.at(0).tok_name), (buffer.at(1).tok_name));
             abstract_syntax_tree.push_back(std::move(ptr));
+            if (buffer.at(0).tok_name == "int")
+            {
+                int_count += 4;
+            }
             std::cout << "Variable Declared.\n";
         }
         else if (buffer.size() == 3 &&
@@ -55,6 +59,9 @@ void Parser::Parse(std::vector<n_Tokenizer::Token> tokens)
         buffer.clear();
     }
 }
+
+int Parser::GetByteCount() { return int_count; }
+
 /*
 
 struct AST *parse(struct Token *head)

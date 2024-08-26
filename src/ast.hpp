@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 #include <string>
 
 namespace AbstractSyntaxTree
@@ -66,7 +67,35 @@ class PrintVisitor : public Visitor
 {
 public:
     void visit(IntegerLiteral& literal) override;
-    void visit(VariableDeclaration& literal) override;
-    void visit(VariableDefinition& literal) override;
+    void visit(VariableDeclaration& decl) override;
+    void visit(VariableDefinition& def) override;
 };
+
+class Emitter
+{
+public:
+    Emitter(const Emitter&) = delete;
+    static Emitter& GetInstance();
+
+    template <typename T>
+    void emit(T data);
+    int stack_offset;
+    int stack_alloc;
+    std::ofstream asm_file;
+
+private:
+    Emitter();
+};
+
+class EmitVisitor : public Visitor
+{
+public:
+    void visit(VariableDefinition& def) override;
+    void visit(VariableDeclaration& decl) override;
+    void visit(IntegerLiteral& literal) override;
+
+private:
+    Emitter& e_Instance = Emitter::GetInstance();
+};
+
 };  // namespace AbstractSyntaxTree

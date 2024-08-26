@@ -38,5 +38,10 @@ int main(int argc, char **argv)
         (*it)->accept(p);
     }
 
+    AbstractSyntaxTree::Emitter &e_Instance =
+        AbstractSyntaxTree::Emitter::GetInstance();
+    AbstractSyntaxTree::EmitVisitor e;
+    p_instance.abstract_syntax_tree.at(1)->accept(e);
+
     return 0;
 }
