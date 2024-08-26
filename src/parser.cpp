@@ -1,8 +1,10 @@
 // Copyright (C) 2024 Anirudh Mathur
 #include "parser.hpp"
 
+#include <any>
 #include <memory>
 
+#include "ast.hpp"
 #include "tokenizer.hpp"
 
 using namespace n_Parser;
@@ -19,18 +21,38 @@ void Parser::Parse(std::vector<n_Tokenizer::Token> tokens)
 {
     std::vector<n_Tokenizer::Token> buffer;
     for (std::vector<n_Tokenizer::Token>::iterator it = tokens.begin();
-         it->tok_type != n_Tokenizer::TOK_NEWLINE; ++it)
+         it != tokens.end(); ++it)
     {
         buffer.push_back(*it);
-    }
-    if (buffer.size() == 2 &&
-        buffer.at(0).tok_type == n_Tokenizer::TOK_KEYWORD &&
-        buffer.at(1).tok_type == n_Tokenizer::TOK_IDENTIFIER)
-    {
-        AbstractSyntaxTree::ASTNodePtr ptr =
-            std::make_unique<AbstractSyntaxTree::VariableDeclaration>(
-                (buffer.at(0).tok_name), (buffer.at(1).tok_name));
-        abstract_syntax_tree.push_back(std::move(ptr));
+        // it->printData();
+        if (it->tok_type != n_Tokenizer::TOK_NEWLINE) continue;
+        buffer.pop_back();
+
+        if (buffer.size() == 2 &&
+            buffer.at(0).tok_type == n_Tokenizer::TOK_KEYWORD &&
+            buffer.at(1).tok_type == n_Tokenizer::TOK_IDENTIFIER)
+        {
+            // std::cout << "VariableDeclaration detected\n";
+            AbstractSyntaxTree::ASTNodePtr ptr =
+                std::make_unique<AbstractSyntaxTree::VariableDeclaration>(
+                    (buffer.at(0).tok_name), (buffer.at(1).tok_name));
+            abstract_syntax_tree.push_back(std::move(ptr));
+            std::cout << "Variable Declared.\n";
+        }
+        else if (buffer.size() == 3 &&
+                 buffer.at(0).tok_type == n_Tokenizer::TOK_IDENTIFIER &&
+                 buffer.at(1).tok_type == n_Tokenizer::TOK_OPERATOR)
+        {
+            // std::cout << "VariableDefinition detected\n";
+            AbstractSyntaxTree::ASTNodePtr ptr =
+                std::make_unique<AbstractSyntaxTree::VariableDefinition>(
+                    buffer.at(0).tok_name,
+                    std::make_unique<AbstractSyntaxTree::IntegerLiteral>(
+                        std::stoi(buffer.at(2).tok_name)));
+            abstract_syntax_tree.push_back(std::move(ptr));
+            std::cout << "Variable Defined\n";
+        }
+        buffer.clear();
     }
 }
 /*

@@ -37,7 +37,8 @@ void Tokenizer::Tokenize(std::string data_stream)
     {
         if (!std::isalnum(*i))
         {
-            tokens.push_back(assignToken(buffer.str()));
+            if (buffer.str().length() != 0)
+                tokens.push_back(assignToken(buffer.str()));
             buffer.str("");
             buffer.clear();
         }
@@ -50,10 +51,8 @@ void Tokenizer::Tokenize(std::string data_stream)
 
 Token Tokenizer::assignToken(std::string data)
 {
-    std::cout << data << std::endl;
     if (std::find(keywords.begin(), keywords.end(), data) != keywords.end())
     {
-        std::cout << "Match!\n";
         return Token(data, TOK_KEYWORD);
     }
     else if (std::all_of(data.begin(), data.end(), ::isdigit))

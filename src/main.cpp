@@ -13,44 +13,30 @@
 int main(int argc, char **argv)
 {
     std::string file_content = read_file(argv[1]);
-    std::cout << file_content << std::endl;
 
-    n_Tokenizer::Tokenizer &instance = n_Tokenizer::Tokenizer::GetInstance();
+    n_Tokenizer::Tokenizer &s_instance = n_Tokenizer::Tokenizer::GetInstance();
+    n_Parser::Parser &p_instance = n_Parser::Parser::GetInstance();
 
-    instance.Tokenize(file_content);
+    s_instance.Tokenize(file_content);
     std::vector<n_Tokenizer::Token>::iterator it;
 
-    for (std::vector<n_Tokenizer::Token>::iterator it = instance.tokens.begin();
-         it != instance.tokens.end(); ++it)
+    for (std::vector<n_Tokenizer::Token>::iterator it =
+             s_instance.tokens.begin();
+         it != s_instance.tokens.end(); ++it)
     {
         it->printData();
     }
+    std::cout << "\n\n";
 
-    n_Parser::Parser::GetInstance().Parse(instance.tokens);
+    p_instance.Parse(s_instance.tokens);
     AbstractSyntaxTree::PrintVisitor p;
 
-    n_Parser::Parser::GetInstance().abstract_syntax_tree.at(0)->accept(p);
-
-    /*
-    struct Token *head = tokenize(file_content);
-    struct Token *iter = head;
-    while (iter != NULL)
+    for (std::vector<AbstractSyntaxTree::ASTNodePtr>::iterator it =
+             p_instance.abstract_syntax_tree.begin();
+         it != p_instance.abstract_syntax_tree.end(); ++it)
     {
-        printf("Name: %s, Type: %d\n", iter->tok_name, iter->tok_type);
-        iter = iter->next;
+        (*it)->accept(p);
     }
-
-    AST *ast = parse(head);
-    std::cout << "Data type: " <<
-    ast->data.AST_VARIABLE_DECLARATION.data_type
-              << "\nVariable name: "
-              << ast->data.AST_VARIABLE_DECLARATION.variable_name <<
-    std::endl; ast = parse(NULL
-    init_emitter();
-    emit(*ast);
-
-    free_tokens(head);
-    */
 
     return 0;
 }

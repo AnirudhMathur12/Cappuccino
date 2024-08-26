@@ -10,15 +10,16 @@ void VariableDefinition::accept(Visitor& accept) { accept.visit(*this); }
 
 void PrintVisitor::visit(IntegerLiteral& literal)
 {
-    std::cout << literal.value;
+    std::cout << "Data: " << literal.value;
 }
 void PrintVisitor::visit(VariableDeclaration& decl)
 {
     std::cout << "Data Type: " << decl.data_type
-              << "\nIdentifier Name: " << decl.identifier_name;
+              << "\tIdentifier Name: " << decl.identifier_name << "\n";
 }
 void PrintVisitor::visit(VariableDefinition& def)
 {
-    std::cout << "Identifier Name: " << def.identifier_name;
+    std::cout << "Identifier Name: " << def.identifier_name << "\t";
     def.expression->accept(*this);
+    std::cout << std::endl;
 }
