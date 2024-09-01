@@ -39,6 +39,8 @@ void EmitVisitor::visit(VariableDefinition& def)
     e_Instance.emit("\tstr w8, [sp, #");
     e_Instance.emit(e_Instance.stack_offset);
     e_Instance.emit("]\n");
+
+    e_Instance.stack_offset -= 4;
 }
 
 void EmitVisitor::visit(VariableDeclaration& decl) {}
@@ -63,8 +65,24 @@ Emitter::Emitter()
     stack_offset = 16 * (inst.GetByteCount() / 12 + 1) - 4;
     asm_file.open("main.s");
     asm_file << ".global _main\n";
+    asm_file << ".extern exit\n";
     asm_file << ".align 4\n";
     asm_file << "\n_main:\n";
     asm_file << "\tsub sp, sp, #" << stack_alloc << "\n";
-    asm_file << "\tmov wzr, [sp, #" << stack_offset << "]\n";
+    asm_file << "\tmov x0, #0\n";
+    asm_file << "\tstr wzr, [sp, #" << stack_offset << "]\n";
+}
+
+void Emitter::open_buf(std::string filename)
+{
+    if (asm_file.is_open())
+    {
+        close_buf();
+    }
+}
+
+void Emitter::close_buf()
+{
+    asm_file << "\tb exit\n";
+    asm_file.close();
 }

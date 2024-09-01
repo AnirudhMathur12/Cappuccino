@@ -76,6 +76,8 @@ class Emitter
 public:
     Emitter(const Emitter&) = delete;
     static Emitter& GetInstance();
+    void open_buf(std::string filename);
+    void close_buf();
 
     template <typename T>
     void emit(T data);

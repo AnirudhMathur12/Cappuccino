@@ -1,7 +1,7 @@
 // Copyright (C) 2024 Anirudh Mathur
 #include "parser.hpp"
 
-#include <any>
+#include <iostream>
 #include <memory>
 
 #include "ast.hpp"
@@ -24,7 +24,6 @@ void Parser::Parse(std::vector<n_Tokenizer::Token> tokens)
          it != tokens.end(); ++it)
     {
         buffer.push_back(*it);
-        // it->printData();
         if (it->tok_type != n_Tokenizer::TOK_NEWLINE) continue;
         buffer.pop_back();
 
@@ -56,6 +55,7 @@ void Parser::Parse(std::vector<n_Tokenizer::Token> tokens)
             abstract_syntax_tree.push_back(std::move(ptr));
             std::cout << "Variable Defined\n";
         }
+        // else if()
         buffer.clear();
     }
 }

@@ -1,7 +1,6 @@
 // Copyright (C) 2024 Anirudh Mathur
 
-#include <stdlib.h>
-
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 
@@ -24,24 +23,30 @@ int main(int argc, char **argv)
              s_instance.tokens.begin();
          it != s_instance.tokens.end(); ++it)
     {
-        it->printData();
+        (*it).printData();
     }
-    std::cout << "\n\n";
+    std::cout << std::endl;
+    /*
 
     p_instance.Parse(s_instance.tokens);
     AbstractSyntaxTree::PrintVisitor p;
+    AbstractSyntaxTree::Emitter &e_Instance =
+        AbstractSyntaxTree::Emitter::GetInstance();
+    AbstractSyntaxTree::EmitVisitor e;
 
     for (std::vector<AbstractSyntaxTree::ASTNodePtr>::iterator it =
              p_instance.abstract_syntax_tree.begin();
          it != p_instance.abstract_syntax_tree.end(); ++it)
     {
         (*it)->accept(p);
+        (*it)->accept(e);
     }
 
-    AbstractSyntaxTree::Emitter &e_Instance =
-        AbstractSyntaxTree::Emitter::GetInstance();
-    AbstractSyntaxTree::EmitVisitor e;
-    p_instance.abstract_syntax_tree.at(1)->accept(e);
+    e_Instance.close_buf();
+
+    system("clang -c -o main.o main.s");
+    system("clang main.o utils.o -o a.out");
+    */
 
     return 0;
 }

@@ -4,7 +4,9 @@
 
 #include <array>
 #include <cctype>
+#include <sstream>
 #include <stack>
+#include <string>
 #include <vector>
 
 using namespace n_Tokenizer;
@@ -12,7 +14,8 @@ using namespace n_Tokenizer;
 // Tokenizer
 std::array<std::string, 3> brackets_start = {"(", "{", "["};
 std::array<std::string, 3> brackets_end = {")", "}", "]"};
-std::array<std::string, 4> keywords = {"int", "float", "string"};
+std::array<std::string, 4> data_type = {"int", "float", "string"};
+std::array<std::string, 2> keywords = {"return", "for"};
 std::array<std::string, 10> operators = {"="};
 
 Tokenizer &Tokenizer::GetInstance()
@@ -30,7 +33,7 @@ void Tokenizer::Tokenize(std::string data_stream)
 
     std::stringstream buffer;
 
-    std::stack<char> bracket_stack;
+    // std::stack<char> bracket_stack;
 
     for (std::string::const_iterator i = data_stream.cbegin();
          i != data_stream.cend(); ++i)
@@ -55,6 +58,11 @@ Token Tokenizer::assignToken(std::string data)
     {
         return Token(data, TOK_KEYWORD);
     }
+    else if (std::find(data_type.begin(), data_type.end(), data) !=
+             data_type.end())
+    {
+        return Token(data, TOK_DATATYPE);
+    }
     else if (std::all_of(data.begin(), data.end(), ::isdigit))
     {
         return Token(data, TOK_CONSTANT);
@@ -63,6 +71,17 @@ Token Tokenizer::assignToken(std::string data)
              operators.end())
     {
         return Token(data, TOK_OPERATOR);
+    }
+    else if (std::find(brackets_start.begin(), brackets_start.end(), data) !=
+             brackets_start.end())
+    {
+        return Token(data, TOK_BRACKET_START);
+    }
+    else if (std::find(brackets_end.begin(), brackets_end.end(), data) !=
+             brackets_end.end())
+    {
+        std::cout << "I will kill myself\n";
+        return Token(data, TOK_BRACKET_END);
     }
     else if (data == ";")
     {

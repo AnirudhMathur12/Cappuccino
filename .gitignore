@@ -4,12 +4,18 @@ CMakeCache.txt
 Makefile
 build
 cmake_install.cmake
+CMakeScripts/
+
+# Clangd
+compile_commands.json
+.clang-format
 
 # Executable
 cappuccino
+main
 
-# Clang Format
-.clang-format
+# Assembly
+*.s
 
 # MacOS
 .DS_store

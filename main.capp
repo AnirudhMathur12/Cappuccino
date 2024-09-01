@@ -1,2 +1,5 @@
-int num1;
-num1 = 6;
+int main()
+{
+    int num;
+    num = 734;
+}
