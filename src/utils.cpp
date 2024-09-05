@@ -4,17 +4,18 @@
 
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <sstream>
 #include <string>
 
-std::string read_file(const std::string &filename)
+std::optional<std::string> read_file(const std::string &filename)
 {
     std::ifstream file(filename, std::ios::in);
 
     if (!file.is_open())
     {
         std::cerr << "Error: Could not open file!" << std::endl;
-        return "";
+        return {};
     }
 
     std::stringstream buffer;

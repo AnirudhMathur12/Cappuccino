@@ -19,6 +19,7 @@ main
 
 # MacOS
 .DS_store
+.cache/
 
 # Prerequisites
 *.d
